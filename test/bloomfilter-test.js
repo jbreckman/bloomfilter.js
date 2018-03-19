@@ -20,6 +20,17 @@ suite.addBatch({
       assert.equal(f.test(n1), true);
       assert.equal(f.test(n2), false);
     },
+    "basicBatch": function() {
+      var f = new BloomFilter(1000, 4),
+          n1 = "Bess",
+          n2 = "Jane";
+      f.add(n1);
+
+      let p1 = f.prepBatch(n1);
+      let p2 = f.prepBatch(n2);
+      assert.equal(f.testBatch(p1), true);
+      assert.equal(f.testBatch(p2), false);
+    },
     "jabberwocky": function() {
       var f = new BloomFilter(1000, 4),
           n1 = jabberwocky,

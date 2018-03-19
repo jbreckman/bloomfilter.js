@@ -49,6 +49,29 @@
     return r;
   };
 
+  BloomFilter.prototype.prepBatch = function(v) {
+    var l = this.locations(v + ""),
+        k = this.k,
+        r = [];
+    for (var i = 0; i < k; ++i) {
+      var b = l[i]
+      r.push([Math.floor(b / 32), b % 32]);
+    }
+    return r;
+  };
+
+  BloomFilter.prototype.testBatch = function(r) {
+    var k = this.k,
+        buckets = this.buckets;
+    for (var i = 0; i < k; ++i) {
+      var b = r[i];
+      if ((buckets[b[0]] & (1 << b[1])) === 0) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   BloomFilter.prototype.add = function(v) {
     var l = this.locations(v + ""),
         k = this.k,
